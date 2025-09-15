@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "433443676516",
+    "project_id": "beyond-d3241",
+    "storage_bucket": "beyond-d3241.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:433443676516:android:e060e493bc5cd28ac79a71",
+        "android_client_info": {
+          "package_name": "com.beyond.broker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGyj84qylzvy1ADV7XtTUuBt5eeFkiZLI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

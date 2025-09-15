@@ -1,0 +1,308 @@
+diff --git a/node_modules/react-native-dropdown-select-list/.DS_Store b/node_modules/react-native-dropdown-select-list/.DS_Store
+new file mode 100644
+index 0000000..a8b17bc
+Binary files /dev/null and b/node_modules/react-native-dropdown-select-list/.DS_Store differ
+diff --git a/node_modules/react-native-dropdown-select-list/components/MultipleSelectList.tsx b/node_modules/react-native-dropdown-select-list/components/MultipleSelectList.tsx
+index a3bba1d..eac032c 100644
+--- a/node_modules/react-native-dropdown-select-list/components/MultipleSelectList.tsx
++++ b/node_modules/react-native-dropdown-select-list/components/MultipleSelectList.tsx
+@@ -132,6 +132,7 @@ const MultipleSelectList: React.FC<MultipleSelectListProps> = ({
+                             }
+                             
+                             <TextInput 
++                            allowFontScaling={false}
+                                 placeholder={searchPlaceholder}
+                                 onChangeText={(val) => {
+                                     let result =  data.filter((item: L1Keys) => {
+@@ -171,13 +172,13 @@ const MultipleSelectList: React.FC<MultipleSelectListProps> = ({
+                 ?
+                     <TouchableOpacity style={[styles.wrapper,boxStyles]} onPress={() => { if(!dropdown){ Keyboard.dismiss(); slidedown() }else{ slideup() } }} >
+                         <View>
+-                            <Text style={[{fontWeight:'600',fontFamily},labelStyles]}>{ label }</Text>
++                            <Text allowFontScaling={false} style={[{fontWeight:'600',fontFamily},labelStyles]}>{ label }</Text>
+                             <View style={{flexDirection:'row',marginBottom:8,flexWrap:'wrap'}}>
+                                 {
+                                     selectedval?.map((item,index) => {
+                                         return (
+                                             <View key={index} style={[{backgroundColor:'gray',paddingHorizontal:20,paddingVertical:5,borderRadius:50,marginRight:10,marginTop:10}, badgeStyles]}>
+-                                                <Text style={[{color:'white',fontSize:12,fontFamily}, badgeTextStyles]}>{item}</Text>
++                                                <Text allowFontScaling={false} style={[{color:'white',fontSize:12,fontFamily}, badgeTextStyles]}>{item}</Text>
+                                             </View>
+                                         )
+                                     })
+@@ -187,7 +188,7 @@ const MultipleSelectList: React.FC<MultipleSelectListProps> = ({
+                     </TouchableOpacity>
+                 :
+                     <TouchableOpacity style={[styles.wrapper,boxStyles]} onPress={() => { if(!dropdown){ Keyboard.dismiss(); slidedown() }else{ slideup() } }}>
+-                        <Text style={[{fontFamily},inputStyles]}>{ (selectedval == "") ? (placeholder) ? placeholder : 'Select option' : selectedval  }</Text>
++                        <Text allowFontScaling={false} style={[{fontFamily},inputStyles]}>{ (selectedval == "") ? (placeholder) ? placeholder : 'Select option' : selectedval  }</Text>
+                         {
+                             (!arrowicon)
+                             ?
+@@ -238,7 +239,7 @@ const MultipleSelectList: React.FC<MultipleSelectListProps> = ({
+ 
+                                                         }
+                                                     </View>
+-                                                    <Text style={[{fontFamily,color:'#c4c5c6'},disabledTextStyles]}>{value}</Text>
++                                                    <Text allowFontScaling={false} style={[{fontFamily,color:'#c4c5c6'},disabledTextStyles]}>{value}</Text>
+                                                 </TouchableOpacity>
+                                             )
+                                         }else{
+@@ -312,7 +313,7 @@ const MultipleSelectList: React.FC<MultipleSelectListProps> = ({
+                                                         
+                                                         
+                                                     </View>
+-                                                    <Text style={[{fontFamily},dropdownTextStyles]}>{value}</Text>
++                                                    <Text allowFontScaling={false} style={[{fontFamily},dropdownTextStyles]}>{value}</Text>
+                                                 </TouchableOpacity>
+                                             )
+                                         }
+@@ -325,7 +326,7 @@ const MultipleSelectList: React.FC<MultipleSelectListProps> = ({
+                                         slideup()
+                                         setTimeout(() => setFilteredData(data), 800)  
+                                     }}>
+-                                        <Text style={dropdownTextStyles}>{notFoundText}</Text>
++                                        <Text allowFontScaling={false} style={dropdownTextStyles}>{notFoundText}</Text>
+                                     </TouchableOpacity>
+                                 }
+                                 
+@@ -338,7 +339,7 @@ const MultipleSelectList: React.FC<MultipleSelectListProps> = ({
+                                     ?
+                                         <Pressable>
+                                             <View style={{flexDirection:'row', justifyContent:'space-between',alignItems:'center',paddingLeft:20}}>
+-                                                <Text style={{marginRight:20,fontWeight:'600',fontFamily}}>Selected</Text>
++                                                <Text allowFontScaling={false} style={{marginRight:20,fontWeight:'600',fontFamily}}>Selected</Text>
+                                                 <View style={{height: 1, flex: 1, backgroundColor: 'gray'}} />
+                                             </View>
+                                             <View style={{flexDirection:'row',paddingHorizontal:20,marginBottom:20,flexWrap:'wrap'}}>
+@@ -347,7 +348,7 @@ const MultipleSelectList: React.FC<MultipleSelectListProps> = ({
+                                                     selectedval?.map((item,index) => {
+                                                         return (
+                                                             <View key={index} style={[{backgroundColor:'gray',paddingHorizontal:20,paddingVertical:5,borderRadius:50,marginRight:10,marginTop:10},badgeStyles]}>
+-                                                                <Text style={[{color:'white',fontSize:12,fontFamily},badgeTextStyles]}>{item}</Text>
++                                                                <Text allowFontScaling={false} style={[{color:'white',fontSize:12,fontFamily},badgeTextStyles]}>{item}</Text>
+                                                             </View>
+                                                         )
+                                                     })
+diff --git a/node_modules/react-native-dropdown-select-list/components/SelectList.tsx b/node_modules/react-native-dropdown-select-list/components/SelectList.tsx
+index 234a7e1..dd4ae50 100644
+--- a/node_modules/react-native-dropdown-select-list/components/SelectList.tsx
++++ b/node_modules/react-native-dropdown-select-list/components/SelectList.tsx
+@@ -37,7 +37,9 @@ const SelectList: React.FC<SelectListProps> =  ({
+         onSelect = () => {},
+         save = 'key',
+         dropdownShown = false,
+-        fontFamily
++        fontFamily,
++        disabled = false,
++        placeholderTextColor // add new prop
+     }) => {
+ 
+     const oldOption = React.useRef(null)
+@@ -118,11 +120,11 @@ const SelectList: React.FC<SelectListProps> =  ({
+ 
+ 
+     return(
+-        <View>
++        <View style={{opacity:1}}>
+             {
+-                (dropdown && search)
++                (dropdown && search && !disabled)
+                 ?
+-                    <View style={[styles.wrapper,boxStyles]}>
++                    <View style={[styles.wrapper, boxStyles, disabled && styles.disabledWrapper]}>
+                         <View style={{flexDirection:'row',alignItems:'center',flex:1}}> 
+                             {
+                                 (!searchicon)
+@@ -137,7 +139,9 @@ const SelectList: React.FC<SelectListProps> =  ({
+                             }
+                             
+                             <TextInput 
++                            allowFontScaling={false}
+                                 placeholder={searchPlaceholder}
++                                editable={!disabled}
+                                 onChangeText={(val) => {
+                                     let result =  data.filter((item: L1Keys) => {
+                                         val.toLowerCase();
+@@ -147,9 +151,9 @@ const SelectList: React.FC<SelectListProps> =  ({
+                                     setFilteredData(result)
+                                 }}
+                                 style={[{padding:0,height:20,flex:1,fontFamily},inputStyles]}
++                                placeholderTextColor={placeholderTextColor}
+                             />
+-                                <TouchableOpacity onPress={() => slideup()} >
+-
++                            <TouchableOpacity onPress={() => slideup()} disabled={disabled}>
+                                 {
+                                     (!closeicon)
+                                     ?
+@@ -161,16 +165,21 @@ const SelectList: React.FC<SelectListProps> =  ({
+                                     :
+                                         closeicon
+                                 }
+-                                   
+-                                </TouchableOpacity>
+-                                
+-                           
++                            </TouchableOpacity>
+                         </View>
+-                        
+                     </View>
+                 :
+-                    <TouchableOpacity style={[styles.wrapper,boxStyles]} onPress={() => { if(!dropdown){ Keyboard.dismiss(); slidedown() }else{ slideup() } }}>
+-                        <Text style={[{fontFamily},inputStyles]}>{ (selectedval == "") ? (placeholder) ? placeholder : 'Select option' : selectedval  }</Text>
++                    <TouchableOpacity style={[styles.wrapper, boxStyles, disabled && styles.disabledWrapper]} onPress={() => { if(!dropdown && !disabled){ Keyboard.dismiss(); slidedown() }else if(!disabled){ slideup() } }} disabled={disabled}>
++                        <TextInput
++                        allowFontScaling={false}
++                            value={selectedval === "" ? undefined : selectedval}
++                            placeholder={(placeholder) ? placeholder : 'Select option'}
++                            placeholderTextColor={placeholderTextColor}
++                            editable={false}
++                            selectTextOnFocus={false}
++                            style={[{fontFamily},inputStyles, (selectedval == "" && placeholderTextColor) ? {color: placeholderTextColor} : null, {padding: 0, flex: 1, borderWidth: 0, backgroundColor: 'transparent'}]}
++                            pointerEvents="none"
++                        />
+                         {
+                             (!arrowicon)
+                             ?
+@@ -182,15 +191,13 @@ const SelectList: React.FC<SelectListProps> =  ({
+                             :
+                                 arrowicon
+                         }
+-                        
+                     </TouchableOpacity>
+             }
+-            
+             {
+-                (dropdown)
++                (dropdown && !disabled)
+                 ?
+-                    <Animated.View style={[{maxHeight:animatedvalue},styles.dropdown,dropdownStyles]}>
+-                        <ScrollView  contentContainerStyle={{paddingVertical:10,overflow:'hidden'}} nestedScrollEnabled={true}>
++                    <Animated.View style={[{maxHeight:animatedvalue},styles.dropdown,dropdownStyles, disabled && styles.disabledWrapper]}>
++                        <ScrollView  contentContainerStyle={{paddingVertical:10,overflow:'hidden'}} nestedScrollEnabled={true} showsVerticalScrollIndicator={false}>
+ 
+                             {
+                                 (filtereddata.length >=  1)
+@@ -199,15 +206,16 @@ const SelectList: React.FC<SelectListProps> =  ({
+                                     let key = item.key ?? item.value ?? item;
+                                     let value = item.value ?? item;
+                                     let disabled = item.disabled ?? false;
++                             
+                                     if(disabled){
+                                         return(
+                                             <TouchableOpacity style={[styles.disabledoption,disabledItemStyles]} key={index} onPress={ () => {}}>
+-                                                <Text style={[{color:'#c4c5c6',fontFamily},disabledTextStyles]}>{value}</Text>
++                                                <Text allowFontScaling={false} style={[{color:'#c4c5c6',fontFamily},disabledTextStyles]}>{value}</Text>
+                                             </TouchableOpacity>
+                                         )
+                                     }else{
+                                         return(
+-                                            <TouchableOpacity style={[styles.option,dropdownItemStyles]} key={index} onPress={ () => {
++                                            <TouchableOpacity style={[styles.option,dropdownItemStyles,value === selectedval && { backgroundColor: 'white',borderRadius:10},]} key={index} onPress={ () => {
+                                                 if(save === 'value'){
+                                                     setSelected(value);
+                                                 }else{
+@@ -219,7 +227,7 @@ const SelectList: React.FC<SelectListProps> =  ({
+                                                 setTimeout(() => {setFilteredData(data)}, 800)
+                                                 
+                                             }}>
+-                                                <Text style={[{fontFamily},dropdownTextStyles]}>{value}</Text>
++                                                <Text allowFontScaling={false} style={[{fontFamily},dropdownTextStyles]}>{value}</Text>
+                                             </TouchableOpacity>
+                                         )
+                                     }
+@@ -233,7 +241,7 @@ const SelectList: React.FC<SelectListProps> =  ({
+                                     setTimeout(() => setFilteredData(data), 800)
+                                     
+                                 }}>
+-                                    <Text style={[{fontFamily},dropdownTextStyles]}>{notFoundText}</Text>
++                                    <Text allowFontScaling={false} style={[{fontFamily},dropdownTextStyles]}>{notFoundText}</Text>
+                                 </TouchableOpacity>
+                             }
+                             
+@@ -258,6 +266,6 @@ const styles = StyleSheet.create({
+     wrapper:{ borderWidth:1,borderRadius:10,borderColor:'gray',paddingHorizontal:20,paddingVertical:12,flexDirection:'row',justifyContent:'space-between' },
+     dropdown:{ borderWidth:1,borderRadius:10,borderColor:'gray',marginTop:10,overflow:'hidden'},
+     option:{ paddingHorizontal:20,paddingVertical:8,overflow:'hidden' },
+-    disabledoption:{ paddingHorizontal:20,paddingVertical:8,flexDirection:'row',alignItems:'center', backgroundColor:'whitesmoke',opacity:0.9}
+-
++    disabledoption:{ paddingHorizontal:20,paddingVertical:8,flexDirection:'row',alignItems:'center', backgroundColor:'whitesmoke',opacity:0.9},
++    disabledWrapper: { borderColor: '#D9D9D9', backgroundColor: '#f5f5f5' },
+ })
+diff --git a/node_modules/react-native-dropdown-select-list/index.d.ts b/node_modules/react-native-dropdown-select-list/index.d.ts
+index cee3ba0..f044859 100644
+--- a/node_modules/react-native-dropdown-select-list/index.d.ts
++++ b/node_modules/react-native-dropdown-select-list/index.d.ts
+@@ -1,5 +1,5 @@
+ 
+-import type * as React from "react";
++import * as React from "react";
+ import { ViewStyle, TextStyle } from 'react-native';
+ 
+ export interface SelectListProps  {
+@@ -13,6 +13,11 @@ export interface SelectListProps  {
+     */
+     placeholder?: string,
+ 
++    /**
++    * Color of the placeholder text
++    */
++    placeholderTextColor?: string;
++
+     /**
+     * Additional styles for select box
+     */
+@@ -56,12 +61,12 @@ export interface SelectListProps  {
+     /**
+     * Pass any JSX to this prop like Text, Image or Icon to show instead of search icon
+     */
+-    searchicon?: JSX.Element,
++    searchicon?: React.ReactNode,
+ 
+     /**
+     *  Pass any JSX to this prop like Text, Image or Icon to show instead of chevron icon
+     */
+-    arrowicon?: JSX.Element,
++    arrowicon?: React.ReactNode,
+ 
+     /**
+     * set to false if you dont want to use search functionality
+@@ -111,7 +116,12 @@ export interface SelectListProps  {
+     /**
+     *  Pass any JSX to this prop like Text, Image or Icon to show instead of close icon
+     */
+-    closeicon?: JSX.Element,
++    closeicon?: React.ReactNode,
++
++    /**
++    * Disable the entire select list (no interaction, grayed out)
++    */
++    disabled?: boolean;
+ }
+ 
+ 
+@@ -169,12 +179,12 @@ export interface MultipleSelectListProps  {
+     /**
+     * Pass any JSX to this prop like Text, Image or Icon to show instead of search icon
+     */
+-    searchicon?: JSX.Element,
++    searchicon?: React.ReactNode,
+ 
+     /**
+     *  Pass any JSX to this prop like Text, Image or Icon to show instead of chevron icon
+     */
+-    arrowicon?: JSX.Element,
++    arrowicon?: React.ReactNode,
+ 
+     /**
+     * set to false if you dont want to use search functionality
+@@ -240,7 +250,7 @@ export interface MultipleSelectListProps  {
+     /**
+     *  Pass any JSX to this prop like Text, Image or Icon to show instead of close icon
+     */
+-    closeicon?: JSX.Element,
++    closeicon?: React.ReactNode,
+ 
+     
+     /**

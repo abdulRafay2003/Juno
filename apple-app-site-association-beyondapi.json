@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "62SAY5BL74.com.beyond.broker",
+        "paths": ["/forgot-password/reset-password*"]
+      }
+    ]
+  }
+}
