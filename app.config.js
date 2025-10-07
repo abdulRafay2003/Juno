@@ -1,7 +1,7 @@
 module.exports = {
-  name: 'BeyondBroker',
-  displayName: 'BeyondBroker',
-  scheme: 'beyondbroker', // Add custom URL scheme for deep linking
+  name: 'Juno',
+  displayName: 'Juno',
+  scheme: 'Juno', // Add custom URL scheme for deep linking
   android: {
     package: 'com.beyond.broker',
     intentFilters: [
@@ -14,7 +14,10 @@ module.exports = {
             host: 'beyond-beta.demoz.agency',
           },
         ],
-        category: ['android.intent.category.DEFAULT', 'android.intent.category.BROWSABLE'],
+        category: [
+          'android.intent.category.DEFAULT',
+          'android.intent.category.BROWSABLE',
+        ],
       },
       // Add custom scheme intent filter for direct deep linking
       {
@@ -22,10 +25,13 @@ module.exports = {
         autoVerify: false,
         data: [
           {
-            scheme: 'beyondbroker',
+            scheme: 'Juno',
           },
         ],
-        category: ['android.intent.category.DEFAULT', 'android.intent.category.BROWSABLE'],
+        category: [
+          'android.intent.category.DEFAULT',
+          'android.intent.category.BROWSABLE',
+        ],
       },
     ],
   },

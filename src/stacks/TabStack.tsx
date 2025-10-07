@@ -7,11 +7,8 @@ import {
 } from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Colors, FontType, Images, Metrix} from '@/config';
-import {Eoi, Leads} from '@/screens';
+import {Dashboard, Eoi, Leads, Menu} from '@/screens';
 import CustomText from '@/components/CustomText';
-import AddTabBarButton from '@/components/AddTabBarButton';
-import MenuStack from './MenuStack';
-import DashboardStack from './DashboardStack';
 const Tab = createBottomTabNavigator();
 
 // Types
@@ -25,7 +22,7 @@ export const TabStack: React.FC = () => {
   const tabsData: TabStackType = [
     {
       name: 'Dashboard',
-      component: DashboardStack,
+      component: Dashboard,
       icons: (focused: boolean) => (
         <Images.DashboardSVG
           color={focused ? Colors.LightBlack : Colors.inactiveGrey}
@@ -49,11 +46,7 @@ export const TabStack: React.FC = () => {
         />
       ),
     },
-    {
-      name: 'Add',
-      component: Eoi,
-      icons: (focused: boolean) => <Images.DashboardSVG />,
-    },
+
     {
       name: 'Eoi',
       component: Eoi,
@@ -69,7 +62,7 @@ export const TabStack: React.FC = () => {
     },
     {
       name: 'Menu',
-      component: MenuStack,
+      component: Menu,
       icons: (focused: boolean) => (
         <Images.MenuSVG
           color={focused ? Colors.LightBlack : Colors.inactiveGrey}
@@ -83,76 +76,73 @@ export const TabStack: React.FC = () => {
   ];
 
   return (
-    <>
-      <Tab.Navigator
-        id={undefined}
-        screenOptions={{
-          tabBarStyle: styles.tabBarStyle,
-          // added this to remove the ripple effect.
-          tabBarButton: props => (
-            <TouchableWithoutFeedback onPress={props.onPress}>
-              <View style={props.style}>{props.children}</View>
-            </TouchableWithoutFeedback>
-          ),
-        }}>
-        {tabsData?.map(item => (
-          <Tab.Screen
-            key={item?.name}
-            name={item?.name}
-            component={item?.component}
-            options={
-              {
-                animation: 'fade',
-                tabBarHideOnKeyboard: true,
-                headerShown: false,
-                tabBarLabel: ({color, focused}) => (
-                  <CustomText.MediumText
-                    customStyle={[
-                      {
-                        fontSize: focused
-                          ? FontType.FontExtraSmall
-                          : FontType.FontSuperSmall,
-                      },
-                      ,
-                      {color: focused ? Colors.LightBlack : color},
-                    ]}>
-                    {item?.name}
-                  </CustomText.MediumText>
-                ),
-                tabBarIcon: ({focused}) => <>{item?.icons(focused)}</>,
-              } as any
-            }
-            listeners={({navigation, route}) => ({
-              tabPress: e => {
-                const state = navigation.getState();
-                const tab = state.routes.find(r => r.name === route.name);
-                const isMenuTab = route.name === 'Menu';
-                const isFocused =
-                  state.index ===
-                  state.routes.findIndex(r => r.name === route.name);
-                if (isMenuTab && isFocused) {
-                  navigation.navigate('Menu'); // Always trigger navigation to Menu
+    <Tab.Navigator
+      id={undefined}
+      screenOptions={{
+        tabBarStyle: styles.tabBarStyle,
+        // added this to remove the ripple effect.
+        tabBarButton: props => (
+          <TouchableWithoutFeedback onPress={props.onPress}>
+            <View style={props.style}>{props.children}</View>
+          </TouchableWithoutFeedback>
+        ),
+      }}>
+      {tabsData?.map(item => (
+        <Tab.Screen
+          key={item?.name}
+          name={item?.name}
+          component={item?.component}
+          options={
+            {
+              animation: 'fade',
+              tabBarHideOnKeyboard: true,
+              headerShown: false,
+              tabBarLabel: ({color, focused}) => (
+                <CustomText.MediumText
+                  customStyle={[
+                    {
+                      fontSize: focused
+                        ? FontType.FontExtraSmall
+                        : FontType.FontSuperSmall,
+                    },
+                    ,
+                    {color: focused ? Colors.LightBlack : color},
+                  ]}>
+                  {item?.name}
+                </CustomText.MediumText>
+              ),
+              tabBarIcon: ({focused}) => <>{item?.icons(focused)}</>,
+            } as any
+          }
+          listeners={({navigation, route}) => ({
+            tabPress: e => {
+              const state = navigation.getState();
+              const tab = state.routes.find(r => r.name === route.name);
+              const isMenuTab = route.name === 'Menu';
+              const isFocused =
+                state.index ===
+                state.routes.findIndex(r => r.name === route.name);
+              if (isMenuTab && isFocused) {
+                navigation.navigate('Menu'); // Always trigger navigation to Menu
 
-                  // If Menu has a stack, reset it to its initial route
-                  navigation.reset({
-                    index: 0,
-                    routes: [{name: 'Menu'}],
-                  });
-                  // Prevent default navigation for Menu tab if already focused
-                  return;
-                }
-                if (tab?.state && tab.state.index > 0) {
-                  navigation.navigate(route.name, {
-                    screen: tab.state.routeNames[0],
-                  });
-                }
-              },
-            })}
-          />
-        ))}
-      </Tab.Navigator>
-      <AddTabBarButton />
-    </>
+                // If Menu has a stack, reset it to its initial route
+                navigation.reset({
+                  index: 0,
+                  routes: [{name: 'Menu'}],
+                });
+                // Prevent default navigation for Menu tab if already focused
+                return;
+              }
+              if (tab?.state && tab.state.index > 0) {
+                navigation.navigate(route.name, {
+                  screen: tab.state.routeNames[0],
+                });
+              }
+            },
+          })}
+        />
+      ))}
+    </Tab.Navigator>
   );
 };
 

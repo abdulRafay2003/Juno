@@ -10,7 +10,6 @@ import {RouteNames} from '@/config/routes';
 import {Colors} from '@/config';
 import {DefaultTheme} from '@react-navigation/native';
 import {getAccountStatus} from '@/utils/business.helper';
-import {PendingStack} from '@/stacks/PendingStack/PendingStack';
 import {Linking} from 'react-native';
 
 const CustomTheme = {
@@ -22,7 +21,7 @@ const CustomTheme = {
 };
 
 const linking = {
-  prefixes: ['beyondbroker://', 'https://beyond-beta.demoz.agency'],
+  prefixes: ['Juno://', 'https://beyond-beta.demoz.agency'],
   config: {
     initialRouteName: RouteNames.AuthRoutes.Login,
     screens: {
@@ -67,14 +66,7 @@ export const MainStack = () => {
       options={stack.options}
     />
   ));
-  const PendingScreens = PendingStack.map(stack => (
-    <MainStack.Screen
-      key={stack.key}
-      name={stack.name}
-      component={stack.component}
-      options={stack.options}
-    />
-  ));
+
   return (
     <NavigationContainer
       linking={linking}
@@ -87,21 +79,15 @@ export const MainStack = () => {
       <MainStack.Navigator
         id={undefined}
         initialRouteName={
-          authorize && getAccountStatus()
-            ? RouteNames.PendingRoutes.PendingTabStack
-            : authorize
-              ? RouteNames.HomeRoutes.TabStack
-              : RouteNames.AuthRoutes.Login
+          authorize
+            ? RouteNames.HomeRoutes.TabStack
+            : RouteNames.AuthRoutes.Login
         }
         screenOptions={{
           headerShown: false,
           ...TransitionPresets.DefaultTransition,
         }}>
-        {authorize && getAccountStatus()
-          ? PendingScreens
-          : authorize
-            ? HomeScreens
-            : AuthScreens}
+        {authorize ? HomeScreens : AuthScreens}
       </MainStack.Navigator>
     </NavigationContainer>
   );

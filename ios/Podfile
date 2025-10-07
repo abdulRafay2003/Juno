@@ -17,7 +17,7 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
-target 'BeyondBroker' do
+target 'Juno' do
  # pod 'Google-Maps-iOS-Utils', :git => 'https://github.com/Simon-TechForm/google-maps-ios-utils.git', :branch => 'feat/support-apple-silicon'
   pod 'RNFBAnalytics', :path => '../node_modules/@react-native-firebase/analytics'
   # pod 'RNPDF', :path => '../node_modules/react-native-view-pdf'
